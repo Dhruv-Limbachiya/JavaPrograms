@@ -264,7 +264,7 @@ public class LinkedListIntroduction {
         while (current != null) {
             // next will always point to current's next node
             next = current.getNextNode();
-            // update current next node by assigning previous node address which will de-link current node from the linked list.
+            // update current next by assigning previous node address which will de-link current node from the linked list.
             current.setNextNode(previous);
             // update or move previous pointer by one step.
             previous = current;
