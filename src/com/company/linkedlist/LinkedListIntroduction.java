@@ -24,6 +24,7 @@ public class LinkedListIntroduction {
 
         linkedList.findTotalOccurrence(10);
 
+        linkedList.reverseLinkedList();
     }
 
     /**
@@ -244,6 +245,37 @@ public class LinkedListIntroduction {
         } else {
             System.out.println("Unable to find any occurrence for the give key");
         }
+    }
+
+
+    /**
+     * Reverse the linked list.
+     */
+    private void reverseLinkedList() {
+        if(head == null) {
+            return;
+        }
+
+        // make three pointer previous,current,next.
+        Node previous = null;
+        Node current = head;
+        Node next;
+
+        while (current != null) {
+            // next will always point to current's next node
+            next = current.getNextNode();
+            // update current next node by assigning previous node address which will de-link current node from the linked list.
+            current.setNextNode(previous);
+            // update or move previous pointer by one step.
+            previous = current;
+            // next node of current will be our new current node. Basically it means move/update current by one step ahead.
+            current = next;
+        }
+
+        // Finally, previous will point to last node of normal linked list or first node of reversed linked list.
+        head = previous; // update head node
+
+        printLinkedList();
     }
 }
 
