@@ -10,21 +10,23 @@ public class LinkedListIntroduction {
 
         initialNodes(linkedList);
 
-        linkedList.printLinkedList();
+//        linkedList.printLinkedList();
+//
+//        linkedList.printLength();
+//
+//        System.out.println(linkedList.searchNode(-20));
+//
+//        linkedList.getNodeByPosition(3);
+//
+//        linkedList.findNodeFromTheEndOfLinkedList(7);
+//
+//        linkedList.findMiddleNodeOfLinkedList();
+//
+//        linkedList.findTotalOccurrence(10);
+//
+//        linkedList.reverseLinkedList();
 
-        linkedList.printLength();
-
-        System.out.println(linkedList.searchNode(-20));
-
-        linkedList.getNodeByPosition(3);
-
-        linkedList.findNodeFromTheEndOfLinkedList(7);
-
-        linkedList.findMiddleNodeOfLinkedList();
-
-        linkedList.findTotalOccurrence(10);
-
-        linkedList.reverseLinkedList();
+        System.out.println("Does linked list has any loop? "+linkedList.detectAndCountLoop());
     }
 
     /**
@@ -49,6 +51,8 @@ public class LinkedListIntroduction {
         node3.setNextNode(node4);
         node4.setNextNode(node5);
         node5.setNextNode(node6);
+        node6.setNextNode(node3);
+
     }
 
     /**
@@ -276,6 +280,46 @@ public class LinkedListIntroduction {
         head = previous; // update head node
 
         printLinkedList();
+    }
+
+    /**
+     * Detects the loop in the linked list using Floyd's Cycle - Finding Algorithm.
+     * @return - true if found else false.
+     */
+    private boolean detectAndCountLoop() {
+        if(head == null) {
+            return false;
+        }
+
+        Node fast = head;
+        Node slow = head;
+
+        while (fast != null && slow != null && fast.getNextNode() != null) {
+            slow = slow.getNextNode();
+            fast = fast.getNextNode().getNextNode();
+            if(fast == slow) {
+                System.out.println("Length : "+countLoopLength(slow));
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Count the length of loop.
+     * @param node - node where starts or ends the loop.
+     * @return - length of loop in integer.
+     */
+    private int countLoopLength(Node node) {
+        Node currentNode = node;
+        int length = 1;
+        while (currentNode.getNextNode() != node) {
+            length++;
+            currentNode = currentNode.getNextNode();
+        }
+
+        return length;
     }
 }
 
