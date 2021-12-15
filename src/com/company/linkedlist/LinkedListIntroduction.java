@@ -27,6 +27,7 @@ public class LinkedListIntroduction {
 //        linkedList.reverseLinkedList();
 
         System.out.println("Does linked list has any loop? "+linkedList.detectAndCountLoop());
+        System.out.println("Is Palindrome ? "+linkedList.isPalindrome());
     }
 
     /**
@@ -40,18 +41,18 @@ public class LinkedListIntroduction {
 
         // Create some hard-coded nodes with its data value.
         Node node2 = new Node(20);
-        Node node3 = new Node(30);
-        Node node4 = new Node(40);
-        Node node5 = new Node(50);
-        Node node6 = new Node(60);
+        Node node3 = new Node(20);
+        Node node4 = new Node(20);
+        Node node5 = new Node(10);
+//        Node node6 = new Node(60);
 
         // Link node to the next node.
         node1.setNextNode(node2);
         node2.setNextNode(node3);
         node3.setNextNode(node4);
         node4.setNextNode(node5);
-        node5.setNextNode(node6);
-        node6.setNextNode(node3);
+//        node5.setNextNode(node6);
+//        node6.setNextNode(node3);
 
     }
 
@@ -320,6 +321,69 @@ public class LinkedListIntroduction {
         }
 
         return length;
+    }
+
+    /**
+     * Method to find linked list is palindrome or not.
+     * @return - true if it is palindrome else false.
+     */
+    private boolean isPalindrome() {
+
+        Node fast = head;
+        Node slow = head;
+        Node currentNode = head;
+        Node midNode;
+
+        // traverse linked list to find the middle node.
+        // when fast node reaches null slow node will reach to middle of the linked list.
+        while (fast != null && slow != null && fast.getNextNode() != null) {
+            fast = fast.getNextNode().getNextNode(); // make 2 hops every time
+            slow = slow.getNextNode(); // hop by hop(single at a time)
+        }
+
+        if(slow != null) {
+            midNode = slow; // assign slow node(reaches at the middle of the linked list) to midNode.
+
+            // reverse & return the half linked list(from node after middle node to last node of the linked list)
+            Node secondHalf = reverseLinkedList(midNode.getNextNode());
+
+            // traverse linked list until it second half linked list reaches at the null.
+            while (secondHalf != null) {
+                // check if the first half linked list node's data != second half linked list node's data.
+                // if true which means linked list data is not palindrome.
+                if(currentNode.getData() != secondHalf.getData()){
+                    return false;
+                }
+
+                // move to next node in both.(firstHalf & secondHalf)
+                currentNode = currentNode.getNextNode();
+                secondHalf = secondHalf.getNextNode();
+            }
+            // linked list is palindrome.
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Reverse the linked list from the specific node to last node.
+     * @param node - node where to start reversing the linked list.
+     * @return - previous node or head pointing to first node in reverse linked list.
+     */
+    private Node reverseLinkedList(Node node) {
+        Node prev = null;
+        Node current = node;
+        Node next;
+
+        while (current != null) {
+            next = current.getNextNode();
+            current.setNextNode(prev);
+            prev = current;
+            current = next;
+        }
+
+        return prev;
     }
 }
 
